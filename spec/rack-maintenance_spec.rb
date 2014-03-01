@@ -70,6 +70,14 @@ shared_examples "RackMaintenance" do
         rack.call({"PATH_INFO"=>"/assets/application.css"})
       end
     end
+
+    context 'and :status_code option 200' do
+      let(:rack) { Rack::Maintenance.new(app, file: file_name, status_code: 200) }
+      it 'returns the maintenance response with 200 http status code' do
+        expect(rack.call({})).to eq [200, {"Content-Type"=>content_type, "Content-Length"=>"0"}, [""]]
+      end
+    end
+
   end
 end
 
